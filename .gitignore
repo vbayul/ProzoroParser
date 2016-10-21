@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .metadata
 bin/
 tmp/
@@ -49,3 +50,17 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+=======
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+>>>>>>> bcf4bdfc9ec887740ecd181a34bc475b58a6b26c
