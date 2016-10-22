@@ -51,7 +51,10 @@ public class Tender {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return ID + " Копания - " + Company + " Тендер " + Name 
-				+ " Цена " + Price + " Ссылка " + URL;
+		return ID + System.lineSeparator() 
+				+ "Копания - " + Company + System.lineSeparator() 
+				+ "Тендер - " + Name + System.lineSeparator() 
+				+ "Цена - " + Price + System.lineSeparator()
+				+ "Ссылка - " + URL + System.lineSeparator();
 	}
 }

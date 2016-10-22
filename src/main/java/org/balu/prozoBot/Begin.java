@@ -48,10 +48,9 @@ public class Begin {
 		AttributeToTenders atrributeToTender = new AttributeToTenders();
 		tenders = atrributeToTender.setAttributeToTenders(attributesValue);
 		
-		/*
+		
 		for (Tender tender : tenders) {
 			System.out.println(tender.toString());
 		}
-		*/
 	}
 }

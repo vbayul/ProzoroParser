@@ -9,5 +9,5 @@ public interface TenderDAO {
 	
 	public List<Tender> getNewTenders();
 	
-	public void setStatusSend(List<Tender>tenders);
+	public void setStatusSend(Tender tender);
 }
