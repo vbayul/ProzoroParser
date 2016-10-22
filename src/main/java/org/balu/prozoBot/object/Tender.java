@@ -2,40 +2,56 @@ package org.balu.prozoBot.object;
 
 public class Tender {
 
-	private int ID;
+	private String ID;
 	private String Name;
-	private String Compani;
+	private String Company;
 	private String Price;
 	private String URL;
 	
-	public int getID() {
+	public String getID() {
 		return ID;
 	}
-	public void setID(int iD) {
+
+	public void setID(String iD) {
 		ID = iD;
 	}
+
 	public String getName() {
 		return Name;
 	}
-	public void setTender(String tender) {
-		Name = tender;
+
+	public void setName(String name) {
+		Name = name;
 	}
-	public String getCompani() {
-		return Compani;
+
+	public String getCompany() {
+		return Company;
 	}
-	public void setCompani(String compani) {
-		Compani = compani;
+
+	public void setCompany(String company) {
+		Company = company;
 	}
+
 	public String getPrice() {
 		return Price;
 	}
+
 	public void setPrice(String price) {
 		Price = price;
 	}
+
 	public String getURL() {
 		return URL;
 	}
+
 	public void setURL(String uRL) {
 		URL = uRL;
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return ID + " Копания - " + Company + " Тендер " + Name 
+				+ " Цена " + Price + " Ссылка " + URL;
 	}
 }

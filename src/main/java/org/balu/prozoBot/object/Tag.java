@@ -1,4 +1,4 @@
-package org.balu.prozoBot.parser;
+package org.balu.prozoBot.object;
 
 public class Tag {
 
