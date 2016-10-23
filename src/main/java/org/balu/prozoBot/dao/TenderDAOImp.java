@@ -17,7 +17,7 @@ public class TenderDAOImp implements TenderDAO{
 	}
 	
 	@Override
-	public void saveTenders(List<Tender> tenders)  {
+	public void addTenders(List<Tender> tenders)  {
 		
 		String sql = "";
 		
@@ -54,7 +54,7 @@ public class TenderDAOImp implements TenderDAO{
 	}
 
 	@Override
-	public void setStatusSend(Tender tender) {
+	public void setTendersStatusSend(List<Tender> tenders) {
 		
 		String sql = "";
 		

@@ -6,6 +6,7 @@ target/
 *.tmp
 *.bak
 *.swp
+*.properties
 *~.nib
 local.properties
 .settings/

@@ -5,9 +5,9 @@ import org.balu.prozoBot.object.Tender;
 
 public interface TenderDAO {
 
-	public void saveTenders(List<Tender> tenders);
+	public void addTenders(List<Tender> tenders);
 	
 	public List<Tender> getNewTenders();
 	
-	public void setStatusSend(Tender tender);
+	public void setTendersStatusSend(List<Tender> tenders);
 }

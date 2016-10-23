@@ -1,9 +1,15 @@
 package org.balu.prozoBot;
 
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.balu.prozoBot.bot.TelegramBot;
+import org.balu.prozoBot.dao.ConnectDB;
+import org.balu.prozoBot.dao.TenderDAO;
+import org.balu.prozoBot.dao.TenderDAOImp;
 import org.balu.prozoBot.object.Tag;
 import org.balu.prozoBot.object.Tender;
 import org.balu.prozoBot.parser.AttributeToTenders;
@@ -17,6 +23,7 @@ public class Begin {
 	
 	public static void main(String[] args) 
 	{
+		
 		ParserPage parserPage = new ParserPage();
 
 		List<Tender> tenders = new ArrayList<>();
@@ -47,10 +54,45 @@ public class Begin {
 		
 		AttributeToTenders atrributeToTender = new AttributeToTenders();
 		tenders = atrributeToTender.setAttributeToTenders(attributesValue);
+        
+		ConnectDB connectionDB = new ConnectDB();
 		
+		try (Connection connection = connectionDB.getConnection())
+		{
+			TenderDAO tenderDAO = new TenderDAOImp(connection);
+			tenderDAO.addTenders(tenders);
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
 		
+		try (Connection connection = connectionDB.getConnection())
+		{
+			TenderDAO tenderDAO = new TenderDAOImp(connection);
+			tenders = tenderDAO.getNewTenders();
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		try (Connection connection = connectionDB.getConnection())
+		{
+			TenderDAO tenderDAO = new TenderDAOImp(connection);
+			tenderDAO.setTendersStatusSend(tenders);
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		TelegramBot telegramBot = new TelegramBot();
+
 		for (Tender tender : tenders) {
 			System.out.println(tender.toString());
+			telegramBot.sendMessage(tender);
 		}
+		
 	}
 }
