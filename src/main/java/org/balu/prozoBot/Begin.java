@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.balu.prozoBot.bot.TelegramBot;
 import org.balu.prozoBot.dao.ConnectDB;
 import org.balu.prozoBot.dao.TenderDAO;
@@ -20,14 +22,14 @@ import org.htmlparser.util.ParserException;
 public class Begin {
 
 	private static String URL = "https://prozorro.gov.ua/tender/search/?region=49-53&status=active.tendering";
-	
+
 	public static void main(String[] args) 
 	{
-		
 		ParserPage parserPage = new ParserPage();
 
-		List<Tender> tenders = new ArrayList<>();
-		List<Tag> tags = new ArrayList<>();
+		List<Tender> tenders = new ArrayList<Tender>();
+		List<Tender> tendersToSend = new ArrayList<Tender>();
+		List<Tag> tags = new ArrayList<Tag>();
 
 		tags.add(new Tag("span", "cell"));
 		tags.add(new Tag("div", "items-list-item-description"));
@@ -39,60 +41,49 @@ public class Begin {
 		try 
 		{
 			page = new Parser(URL);
-		} 
+		}
 		catch (ParserException e) 
 		{
-			e.printStackTrace();
 		}
-
-		List<String> attributesValue = new ArrayList<>();
-		for (Tag tag : tags) 
+		
+		List<String> attributesValue = new ArrayList<String>();
+		if (page != null)
 		{
+			for (Tag tag : tags) 
+			{
 			attributesValue.addAll(parserPage.getTagValue(page, tag));
 			page.reset();	
+			}
 		}
 		
 		AttributeToTenders atrributeToTender = new AttributeToTenders();
 		tenders = atrributeToTender.setAttributeToTenders(attributesValue);
-        
+     
 		ConnectDB connectionDB = new ConnectDB();
 		
 		try (Connection connection = connectionDB.getConnection())
 		{
 			TenderDAO tenderDAO = new TenderDAOImp(connection);
 			tenderDAO.addTenders(tenders);
+			tendersToSend = tenderDAO.getNewTenders();
 		}
 		catch (SQLException e) 
 		{
-			e.printStackTrace();
-		}
-		
-		try (Connection connection = connectionDB.getConnection())
-		{
-			TenderDAO tenderDAO = new TenderDAOImp(connection);
-			tenders = tenderDAO.getNewTenders();
-		}
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		try (Connection connection = connectionDB.getConnection())
-		{
-			TenderDAO tenderDAO = new TenderDAOImp(connection);
-			tenderDAO.setTendersStatusSend(tenders);
-		}
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
 		}
 		
 		TelegramBot telegramBot = new TelegramBot();
-
-		for (Tender tender : tenders) {
-			System.out.println(tender.toString());
+		
+		for (Tender tender : tendersToSend) {
 			telegramBot.sendMessage(tender);
 		}
-		
+
+		try (Connection connection = connectionDB.getConnection())
+		{
+			TenderDAO tenderDAO = new TenderDAOImp(connection);
+			tenderDAO.setTendersStatusSend(tendersToSend);
+		}
+		catch (SQLException e) 
+		{
+		}
 	}
 }
