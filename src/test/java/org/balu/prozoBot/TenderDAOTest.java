@@ -9,11 +9,8 @@ import org.balu.prozoBot.dao.ConnectDB;
 import org.balu.prozoBot.dao.TenderDAO;
 import org.balu.prozoBot.dao.TenderDAOImp;
 import org.balu.prozoBot.object.Tender;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 public class TenderDAOTest {
 
